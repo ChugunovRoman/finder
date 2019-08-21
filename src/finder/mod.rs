@@ -4,15 +4,7 @@ use std::fs::{self, ReadDir, DirEntry};
 use std::path::{Path, PathBuf};
 
 struct FinderOptions {
-    regex: String,
-}
-
-impl fmt::Debug for FinderOptions {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        f.debug_struct("FinderOptions")
-            .field("regex", &self.regex)
-            .finish()
-    }
+    filter: &'static Fn(&DirEntry) -> bool,
 }
 
 pub struct Finder {
@@ -24,14 +16,14 @@ impl Finder {
     pub fn new<P: AsRef<Path>>(root: P) -> Self {
         Finder {
             opts: FinderOptions {
-                regex: String::from("*")
+                filter: &|e| { true }
             },
             root: root.as_ref().to_path_buf()
         }
     }
 
-    pub fn regex(mut self, regex: String) -> Self {
-        self.opts.regex = regex;
+    pub fn filter(mut self, filter: &'static Fn(&DirEntry) -> bool) -> Self {
+        self.opts.filter = filter;
         self
     }
 }
@@ -76,7 +68,7 @@ impl Iterator for IntoIter {
                 Some(entry) => {
                     let e = entry.expect("BUGG");
                     self.handle_entry(&e.path());
-                    if !e.path().is_dir() {
+                    if !e.path().is_dir() && (self.opts.filter)(&e) {
                         return Some(e);
                     }
 
