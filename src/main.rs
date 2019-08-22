@@ -2,7 +2,7 @@ extern crate finder;
 
 use std::fs::DirEntry;
 
-use finder::finder::Finder;
+use finder::Finder;
 
 fn is_font_file(e: &DirEntry) -> bool {
     if let Some(s) = e.path().file_name() {
