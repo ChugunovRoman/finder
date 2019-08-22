@@ -8,7 +8,7 @@ fn is_font_file(e: &DirEntry) -> bool {
     if let Some(s) = e.path().file_name() {
         let name = String::from(s.to_str().unwrap());
 
-        if (name.ends_with(".ttf")) {
+        if (name.ends_with(".ttf") || name.ends_with(".ttc")) {
             return true;
         }
     }
@@ -17,7 +17,7 @@ fn is_font_file(e: &DirEntry) -> bool {
 }
 
 fn main() {
-    let finders = Finder::new("/usr/share/fonts");
+    let finders = Finder::new("/usr/share/fonts/opentype:/usr/share/fonts/truetype/noto");
     for i in finders.filter(&is_font_file).into_iter() {
         println!("{}", i.path().to_str().expect("FAIL!!!!"));
     }

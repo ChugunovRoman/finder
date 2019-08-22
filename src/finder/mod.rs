@@ -1,4 +1,3 @@
-use std::fmt;
 use std::io;
 use std::fs::{self, ReadDir, DirEntry};
 use std::path::{Path, PathBuf};
@@ -16,7 +15,7 @@ impl Finder {
     pub fn new<P: AsRef<Path>>(root: P) -> Self {
         Finder {
             opts: FinderOptions {
-                filter: &|e| { true }
+                filter: &|_e| { true }
             },
             root: root.as_ref().to_path_buf()
         }
@@ -54,7 +53,9 @@ impl Iterator for IntoIter {
     fn next(&mut self) -> Option<DirEntry> {
         if self.entries.is_empty() {
             if let Some(start) = self.start.take() {
-                self.handle_entry(&start);
+                for path in String::from(start.to_str().unwrap()).split(":") {
+                    self.handle_entry(&Path::new(path).to_path_buf());
+                }
             }
         }
 
@@ -102,7 +103,7 @@ impl Iterator for List {
     fn next(&mut self) -> Option<Result<DirEntry, io::Error>> {
         match *self {
             List::Files { ref mut it } => match *it {
-                Err(ref mut err) => None,
+                Err(ref mut _err) => None,
                 Ok(ref mut rd) => rd.next()
             }
         }
