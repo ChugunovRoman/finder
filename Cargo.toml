@@ -3,5 +3,13 @@ name = "finder"
 version = "0.1.0"
 authors = ["Chugunov Roman <Zebs-BMK@yandex.ru>"]
 edition = "2018"
+license = "MIT"
+description = "Recursive find files in folders with filtering"
+homepage = "https://github.com/ChugunovRoman/finder"
+repository = "https://github.com/ChugunovRoman/finder"
+documentation = "https://docs.rs/finder/"
+
+keywords = ["recursive", "iterator", "fonts"]
+categories = ["filesystem"]
 
 [dependencies]
