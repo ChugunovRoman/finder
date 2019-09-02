@@ -19,6 +19,6 @@ fn is_font_file(e: &DirEntry) -> bool {
 fn main() {
   let finders = Finder::new("/usr/share/fonts/opentype:/usr/share/fonts/truetype/noto");
   for i in finders.filter(&is_font_file).into_iter() {
-    println!("{}", i.path().to_str().expect("FAIL!!!!"));
+    println!("{}", i.path().to_str().unwrap());
   }
 }
