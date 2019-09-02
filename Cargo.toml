@@ -1,9 +1,10 @@
 [package]
 name = "finder"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Chugunov Roman <Zebs-BMK@yandex.ru>"]
 edition = "2018"
 license = "MIT"
+readme = "README.md"
 description = "Recursive find files in folders with filtering"
 homepage = "https://github.com/ChugunovRoman/finder"
 repository = "https://github.com/ChugunovRoman/finder"
