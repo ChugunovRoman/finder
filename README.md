@@ -1,3 +1,5 @@
+# Finder
+
 Crate `finder` is a very simple and lightweight file searcher with the filtering of files.
 It provides an efficient implementation of recursive file search.
 
@@ -9,11 +11,11 @@ To use this crate, add `finder` as a dependency to your project's
 finder = "0.1"
 ```
 
-# Example
+## Example
 
 The following code recursively search all files in `/foo` and `/bar` diresctories:
 
-```no_run
+```rust
 extern crate finder;
 
 use finder::Finder;
@@ -26,11 +28,11 @@ fn main() {
 }
 ```
 
-# Example with filter
+## Example with filter
 
 The following code recursively search `.ttf` and `.ttc` files in `/foo` and `/bar` diresctories:
 
-```no_run
+```rust
 extern crate finder;
 
 use std::fs::DirEntry;
