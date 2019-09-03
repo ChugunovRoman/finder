@@ -1,5 +1,7 @@
 # Finder
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/02e634f24d7a47f581110dd6ead027aa)](https://app.codacy.com/app/ChugunovRoman/finder?utm_source=github.com&utm_medium=referral&utm_content=ChugunovRoman/finder&utm_campaign=Badge_Grade_Dashboard)
+
 Crate `finder` is a very simple and lightweight file searcher with the filtering of files.
 It provides an efficient implementation of recursive file search.
 
