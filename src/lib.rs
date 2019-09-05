@@ -60,6 +60,9 @@ fn main() {
 
 */
 
+extern crate log;
+
+use log::warn;
 use std::fs::{self, DirEntry, ReadDir};
 use std::io;
 use std::path::{Path, PathBuf};
@@ -127,7 +130,7 @@ impl Iterator for IntoIter {
       match next {
         None => self.entries.pop(),
         Some(entry) => {
-          let e = entry.expect("BUGG");
+          let e = entry.unwrap();
           self.handle_entry(&e.path());
           if !e.path().is_dir() && (self.opts.filter)(&e) {
             return Some(e);
@@ -162,7 +165,10 @@ impl Iterator for List {
   fn next(&mut self) -> Option<Result<DirEntry, io::Error>> {
     match *self {
       List::Files { ref mut it } => match *it {
-        Err(ref mut _err) => None,
+        Err(ref mut err) => {
+          warn!("{}", err);
+          return None;
+        }
         Ok(ref mut rd) => rd.next(),
       },
     }

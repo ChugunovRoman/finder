@@ -14,3 +14,4 @@ keywords = ["recursive", "iterator", "fonts"]
 categories = ["filesystem"]
 
 [dependencies]
+log = "0.4"
