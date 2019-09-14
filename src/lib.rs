@@ -62,6 +62,8 @@ fn main() {
 
 extern crate log;
 
+mod tests;
+
 use log::warn;
 use std::fs::{self, DirEntry, ReadDir};
 use std::io;
@@ -125,13 +127,19 @@ impl Iterator for IntoIter {
       let next = self
         .entries
         .last_mut()
-        .expect("BUG: dirs should be non-empty")
+        .expect("BUG: entries should be non-empty")
         .next();
       match next {
         None => self.entries.pop(),
         Some(entry) => {
           let e = entry.unwrap();
-          self.handle_entry(&e.path());
+
+          // println!("entry: {}", e.path().to_str().unwrap());
+
+          if e.path().is_dir() {
+            self.handle_entry(&e.path());
+          }
+
           if !e.path().is_dir() && (self.opts.filter)(&e) {
             return Some(e);
           }
@@ -166,7 +174,8 @@ impl Iterator for List {
     match *self {
       List::Files { ref mut it } => match *it {
         Err(ref mut err) => {
-          warn!("{}", err);
+          // println!("{}", err);
+          // warn!("{}", err);
           return None;
         }
         Ok(ref mut rd) => rd.next(),
