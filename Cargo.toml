@@ -18,3 +18,4 @@ log = "0.4"
 
 [dev-dependencies]
 tempdir = "0.3.7"
+rand = "0.7.1"
