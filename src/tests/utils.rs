@@ -8,12 +8,14 @@ use std::{
 
 pub struct DataSet {
   root: PathBuf,
+  filter: Box<dyn Fn(String) -> bool>,
 }
 
 impl DataSet {
-  pub fn new<P: AsRef<Path>>(path: P) -> Self {
+  pub fn new<P: AsRef<Path>>(path: P, filter: Box<dyn Fn(String) -> bool>) -> Self {
     DataSet {
       root: path.as_ref().to_path_buf(),
+      filter
     }
   }
 
@@ -23,7 +25,7 @@ impl DataSet {
     let mut files = vec![];
     let mut rng = thread_rng();
 
-    for i in 0..20 {
+    for _ in 0..20 {
       let dir_name: String = (0..10)
         .map(|_| {
           let index = rng.gen_range(0, charset.len());
@@ -31,10 +33,24 @@ impl DataSet {
         })
         .collect();
 
-      let dir = self.root.join(&dir_name);
+      let depth = rng.gen_range(0, 10) - 1;
+      let mut depth_path = vec![];
+
+      for _ in 0..depth {
+        let sub_dir_name: String = (0..10)
+          .map(|_| {
+            let index = rng.gen_range(0, charset.len());
+            char::from(unsafe { *charset.get_unchecked(index) })
+          })
+          .collect();
+
+        depth_path.push(sub_dir_name);
+      }
+
+      let dir = self.root.join(&dir_name).join(depth_path.join("/"));
       fs::create_dir_all(&dir).unwrap();
 
-      for j in 0..200 {
+      for _ in 0..200 {
         let file_name: String = (0..15)
           .map(|_| {
             let index = rng.gen_range(0, charset.len());

@@ -134,8 +134,6 @@ impl Iterator for IntoIter {
         Some(entry) => {
           let e = entry.unwrap();
 
-          // println!("entry: {}", e.path().to_str().unwrap());
-
           if e.path().is_dir() {
             self.handle_entry(&e.path());
           }
@@ -155,6 +153,12 @@ impl Iterator for IntoIter {
 
 impl IntoIter {
   pub fn handle_entry(&mut self, directory: &PathBuf) {
+    warn!(
+      "handle directory, is dir: {}, path: {}",
+      directory.is_dir(),
+      directory.to_str().unwrap()
+    );
+
     let rd = fs::read_dir(directory);
     let list = List::Files { it: rd };
     self.entries.push(list);
@@ -173,9 +177,8 @@ impl Iterator for List {
   fn next(&mut self) -> Option<Result<DirEntry, io::Error>> {
     match *self {
       List::Files { ref mut it } => match *it {
-        Err(ref mut err) => {
-          // println!("{}", err);
-          // warn!("{}", err);
+        Err(ref err) => {
+          warn!("error in list iterator: {}", err);
           return None;
         }
         Ok(ref mut rd) => rd.next(),
