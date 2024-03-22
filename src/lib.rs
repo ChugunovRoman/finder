@@ -64,7 +64,7 @@ extern crate log;
 
 mod tests;
 
-use log::warn;
+use log::{warn, debug};
 use std::fs::{self, DirEntry, ReadDir};
 use std::io;
 use std::path::{Path, PathBuf};
@@ -153,7 +153,7 @@ impl Iterator for IntoIter {
 
 impl IntoIter {
   pub fn handle_entry(&mut self, directory: &PathBuf) {
-    warn!(
+    debug!(
       "handle directory, is dir: {}, path: {}",
       directory.is_dir(),
       directory.to_str().unwrap()
